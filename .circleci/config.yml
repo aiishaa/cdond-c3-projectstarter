@@ -76,7 +76,7 @@ jobs:
           keys: [frontend-build]
       - run:
           name: Front-end Unit Test
-          command:
+          command: |
             cd frontend
             npm install
             npm test
@@ -90,7 +90,7 @@ jobs:
           keys: [backend-build]
       - run:
           name: Back-end Unit Test
-          command:
+          command: |
             cd backend
             npm install
             npm test
