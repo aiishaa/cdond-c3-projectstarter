@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs: 
+    slack: circleci/slack@4.10.1
+
 commands:
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
@@ -31,7 +34,13 @@ commands:
             #  Add revert code here. You can find this in the Getting Started section.
               exit 1
             fi
-            
+    
+  notify_on_failure:
+      steps:
+      - slack/notify:
+          event: fail
+          channel: cicd-pipeline
+          template: basic_fail_1        
 jobs:
   build-frontend:
     docker:
@@ -126,6 +135,7 @@ jobs:
             npm audit fix --force --audit-level=critical
             npm audit fix --force --audit-level=critical
             # npm audit --audit-level=critical
+            exit 1
       - slack/notify:
           event: fail
           template: basic_fail_1
