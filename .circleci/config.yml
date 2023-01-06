@@ -192,7 +192,7 @@ jobs:
               --tags project=udapeople \
               --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" 
-              
+
       - run:
           name: Add back-end ip to ansible inventory
           command: |
@@ -211,23 +211,23 @@ jobs:
 
       # Here's where you will add some code to rollback on failure      
 
-  # configure-infrastructure:
-  #   docker:
-  #     # Docker image here that supports Ansible
-  #   steps:
-  #     # Checkout code from git
-  #     # Add ssh keys with fingerprint
-  #     # attach workspace
-  #     - run:
-  #         name: Install dependencies
-  #         command: |
-  #           # Your code here
-  #           exit 1
-  #     - run:
-  #         name: Configure server
-  #         command: |
-  #           # Your code here
-  #           exit 1
+  configure-infrastructure:
+    docker:
+     - image: cimg/python:3.10
+    steps:
+      - install_awscli
+      - install_ansible
+      - add_ssh_keys:
+          fingerprints: ["f6:cc:27:c5:71:ae:f6:e8:d6:e0:53:86:2b:6d:0d:60:83:d1:bc:6d"]
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Run Configure Server Ansible play
+          command: |
+            cd .circleci/ansible
+            cat inventory.txt
+            ansible-playbook -i inventory.txt configure-server.yml
+      - destroy-environment
       # Here's where you will add some code to rollback on failure      
 
   # run-migrations:
@@ -361,8 +361,8 @@ workflows:
           filters:
             branches:
               only: [master]
-      # - configure-infrastructure:
-      #     requires: [deploy-infrastructure]
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
       # - run-migrations:
       #     requires: [configure-infrastructure]
       # - deploy-frontend:
