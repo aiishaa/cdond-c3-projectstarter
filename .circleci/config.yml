@@ -224,7 +224,7 @@ jobs:
       - run:
           name: Run Configure Server Ansible play
           command: |
-            cd circleci/ansible/
+            cd .circleci/ansible/
             cat inventory.txt 
             cat configure-server.yml
             ansible-playbook -i inventory.txt configure-server.yml --private-key=myKey.pem
