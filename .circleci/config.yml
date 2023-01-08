@@ -220,13 +220,16 @@ jobs:
       - install_ansible
       - attach_workspace:
          at: ~/
+      - add_ssh_keys:
+          fingerprints:
+            - "f6:cc:27:c5:71:ae:f6:e8:d6:e0:53:86:2b:6d:0d:60:83:d1:bc:6d"
       - run:
           name: Configure server
           command: |
             cd .circleci/ansible
             cat inventory.txt
             # chmod 400 myKey.pem
-            ansible-playbook -i inventory.txt configure-server.yml --private-key myKey.pem
+            ansible-playbook -i inventory.txt configure-server.yml
       - destroy-environment     
 
   run-migrations:
