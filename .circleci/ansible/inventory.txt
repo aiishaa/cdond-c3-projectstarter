@@ -1,2 +1,2 @@
 [web]
-ec2-44-202-118-135.compute-1.amazonaws.com
+ec2-44-202-118-135.compute-1.amazonaws.com ansible_ssh_pass=vagrant ansible_ssh_user=vagrant
