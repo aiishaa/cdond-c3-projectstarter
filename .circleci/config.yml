@@ -225,6 +225,7 @@ jobs:
           command: |
             cd .circleci/ansible
             cat inventory.txt
+            chmod 400 myKey.pem
             ansible-playbook -i inventory.txt configure-server.yml --private-key myKey.pem
       - destroy-environment     
 
