@@ -13,14 +13,15 @@ commands:
           template: basic_fail_1
 
   install_awscli:
-    description: Insall AWS CLI v2
+    description: Install AWS CLI v2
     steps:
       - run:
-          name: Insall AWS CLI v2
+          name: Install AWS CLI v2
           command: |
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             unzip awscliv2.zip
             sudo ./aws/install
+
   install_ansible:
     description: Insall Ansible v2
     steps:
