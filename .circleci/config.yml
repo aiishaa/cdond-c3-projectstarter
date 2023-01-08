@@ -230,7 +230,7 @@ jobs:
           command: |
             cd .circleci/ansible
             cat inventory.txt
-            sudo ansible-playbook -i inventory.txt configure-server.yml
+            ansible-playbook -i inventory.txt configure-server.yml --private-key myKey.pem
       - destroy-environment     
 
   run-migrations:
