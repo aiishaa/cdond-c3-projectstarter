@@ -44,7 +44,7 @@ commands:
             # Use n version manager to use Node.js v13.8.0
             sudo npm install --global n
             sudo n 13.8.0
-            
+
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
@@ -238,29 +238,38 @@ jobs:
             ansible-playbook -i inventory.txt configure-server.yml 
       - destroy-environment     
 
-  run-migrations:
+  run-migrations: # create run-migrations
     docker:
       - image: cimg/node:13.8.0
     steps:
       - checkout
-      - install_awscli
+      - restore_cache:
+          keys: [backend-build]
+      - run: 
+          name: Install aws cli
+          command: |
+            #test
+            sudo apt-get update && sudo apt-get install -yy less
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install     
       - run:
           name: Run migrations
           command: |
-            cd backend
-            npm install
+            cd backend 
+            npm install      
             npm run migrations > migrations_dump.txt
-      - run:
-          name: Send migration status to kvdb.io
+            cat migrations_dump.txt
+      - run: 
+          name: Send Migration Results to kvdb.io
           command: |
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
             then
-              curl --insecure https://kvdb.io/${KVDB_BUCKET}/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d  '1'
-            else
-              exit 1
+              # If you are using kvdb.io, generate the bucket ID "Up68KQvVZCMC32AM4i2mJR" in your local terminal first
+              curl -d '1' https://kvdb.io/Up68KQvVZCMC32AM4i2mJR/migration_${CIRCLE_WORKFLOW_ID:0:7}  
             fi
-      - destroy-environment
       - revert-migrations
+      - destroy-environment
 
          
 
