@@ -259,7 +259,7 @@ jobs:
 
   deploy-frontend:
     docker:
-      - image: cimg/python:3.10
+      - image: cimg/base:stable
     steps:
       - checkout
       - install_awscli
@@ -291,7 +291,7 @@ jobs:
                     
   deploy-backend:
     docker:
-      - image: cimg/python:3.10
+      - image: cimg/base:stable
     steps:
       - checkout
       - install_awscli
@@ -299,8 +299,6 @@ jobs:
       - install_nodejs
       - add_ssh_keys:
           fingerprints: ["41:1c:eb:be:07:a8:fa:80:88:84:40:bc:9a:fb:18:57"]
-      - attach_workspace:
-          at: ~/
       - restore_cache:
           keys: [backend-deps]
       - run:
