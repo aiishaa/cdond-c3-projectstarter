@@ -269,14 +269,13 @@ jobs:
       
   deploy-frontend:
     docker:
-      - image: cimg/node:13.8.0
+      - image: python:3.7-alpine3.16
     steps:
       - checkout
       - run:
           name: Install dependencies
           command: |
-            cd frontend
-            npm install
+            apk add --update --no-cache tar gzip nodejs npm aws-cli
       - restore_cache:
           keys: [frontend-build]
       - run:
@@ -303,7 +302,7 @@ jobs:
 
   deploy-backend:
     docker:
-      - image: cimg/python:3.10
+      - image: cimg/base:stable
     steps:
       - checkout
       - install_awscli
@@ -343,7 +342,7 @@ jobs:
 
   smoke-test:
     docker:
-      - image: amazon/aws-cli
+      - image: python:3.7-alpine3.16
     steps:
       - checkout
       - run:
