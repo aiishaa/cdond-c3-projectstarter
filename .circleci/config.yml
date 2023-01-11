@@ -60,6 +60,8 @@ commands:
               cd ~/project/backend
               npm install
               npm run migration:revert
+            else
+              echo "Failed"
             fi
 jobs:
   build-frontend:
