@@ -269,7 +269,7 @@ jobs:
       
   deploy-frontend:
     docker:
-      - image: cimg/python:3.10
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - run:
@@ -343,7 +343,7 @@ jobs:
 
   smoke-test:
     docker:
-      - image: python:3.7-alpine3.16
+      - image: amazon/aws-cli
     steps:
       - checkout
       - run:
