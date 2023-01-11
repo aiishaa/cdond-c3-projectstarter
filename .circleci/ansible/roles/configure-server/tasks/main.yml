@@ -1,24 +1,32 @@
 ---
-- name: 'update and upgrade packages.' # sudo apt upgrade
+- name: "install python"
   become: true
   apt:
-    upgrade: yes
-    update_cache: yes
-    cache_valid_time: 86400
-- name: remove unneeded deps # sudo apt autoremove
-  become: true
-  apt:
-    autoremove: yes
-- name: install deps # sudo apt install nodejs npm
-  become: true
-  apt:
-    name: ['nodejs', 'npm']
+    name: "python3"
     state: latest
     update_cache: yes
-- name: install pm2 # sudo npm install pm2 -g
+
+- name: "update apt packages"
+  become: true
+  apt: 
+    update_cache: yes
+
+- name: "upgrade packages"
+  become: true
+  apt: 
+    upgrade: yes
+
+- name: "install dependencies"
+  become: true
+  apt:
+    name: ["nodejs", "npm"]
+    state: latest
+    update_cache: yes
+
+- name: "install pm2"
   become: true
   npm:
     name: pm2
     global: yes
-    state: latest
     production: yes
+    state: present
