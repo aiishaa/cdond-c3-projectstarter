@@ -210,7 +210,7 @@ jobs: #now we will bbuild our jobs
 
   configure-infrastructure:
     docker:
-      - image: cimg/base:stable
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
       - install_awscli
