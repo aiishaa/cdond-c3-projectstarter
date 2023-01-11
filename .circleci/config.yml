@@ -20,7 +20,7 @@ commands:
             sudo apt install software-properties-common -y
             sudo add-apt-repository --yes --update ppa:ansible/ansible
             sudo apt install ansible -y
-            
+
   install_nodejs:
     description: Install Node.js 13.8.0
     steps:
@@ -233,6 +233,7 @@ jobs:
               curl https://kvdb.io/${KVDB_BUCKET}/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             else
               exit 1
+            fi
       - destroy-environment
       - revert-migrations
   deploy-frontend:
