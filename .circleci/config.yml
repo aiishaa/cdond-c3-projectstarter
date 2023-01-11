@@ -263,19 +263,20 @@ jobs:
           command: |
             if grep -q "success" ~/project/backend/migrations.txt
             then
-              curl --insecure https://kvdb.io/ViWzkdySLpmD9TMMzU5Fzq/migration_${CIRCLE_WORKFLOW_ID:0:7} -d '1'
+              curl --insecure https://kvdb.io/${KVDB_BUCKET}/migration_${CIRCLE_WORKFLOW_ID:0:7} -d '1'
             fi
       - destroy-environment
       
   deploy-frontend:
     docker:
-      - image: python:3.7-alpine3.16
+      - image: cimg/python:3.10
     steps:
       - checkout
       - run:
           name: Install dependencies
           command: |
-            apk add --update --no-cache tar gzip nodejs npm aws-cli
+            cd frontend
+            npm install
       - restore_cache:
           keys: [frontend-build]
       - run:
@@ -302,7 +303,7 @@ jobs:
 
   deploy-backend:
     docker:
-      - image: cimg/base:stable
+      - image: cimg/python:3.10
     steps:
       - checkout
       - install_awscli
@@ -361,7 +362,7 @@ jobs:
             --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo $API_URL
-            if curl --connect-timeout 5 "${API_URL}/api/status" | grep "ok"; then return 0; else return 1; fi
+            if curl --connect-timeout 5 "${API_URL}/api/status" | grep "ok"; then return 1; else return 1; fi
       - run:
           name: Frontend smoke test.
           command: |
