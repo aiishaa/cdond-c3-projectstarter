@@ -51,7 +51,7 @@ commands:
             aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.Workflow_ID >>
             aws s3 rm s3://udapeople-<<parameters.Workflow_ID>> --recursive
             aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.Workflow_ID >>
-            
+
   revert-migrations:
     description: Revert the last migration, if any were executed during the current workflow
     parameters:
@@ -369,7 +369,7 @@ jobs:
           command: |
             export URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-${AWS_DEFAULT_REGION}.amazonaws.com/#/employees"            
             echo $URL
-            if curl ${URL} | grep "Welcome"; then return 0; else return 1; fi
+            if curl ${URL} | grep "Welcome"; then return 1; else return 1; fi
       - destroy-environment
       - revert-migrations
 
