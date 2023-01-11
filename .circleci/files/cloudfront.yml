@@ -1,6 +1,6 @@
 Description: >
   Cloudfront distribution for UdaPeople. Create with 
-  AWS cloudformation deploy \
+  aWS cloudformation deploy \
          --template-file cloudfront.yml \
          --stack-name udapeople-cloudfront\
          --parameter-overrides WorkflowID=hello
