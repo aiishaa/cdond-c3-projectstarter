@@ -220,13 +220,15 @@ jobs:
       - install_ansible
       - attach_workspace:
          at: ~/
+      - add_ssh_keys:
+          fingerprints:
+            - "41:1c:eb:be:07:a8:fa:80:88:84:40:bc:9a:fb:18:57"
       - run:
           name: Configure server
           command: |
             cd .circleci/ansible
             cat inventory.txt
-            chmod 400 myKey.pem
-            ansible-playbook -i inventory.txt configure-server.yml --private-key myKey.pem
+            ansible-playbook -i inventory.txt configure-server.yml 
       - destroy-environment     
 
   run-migrations:
@@ -292,7 +294,7 @@ jobs:
       - install_ansible
       - install_nodejs
       - add_ssh_keys:
-          fingerprints: ["d2:8d:1b:5e:b0:08:1b:b7:8b:78:2c:c8:af:a4:c1:a7"]
+          fingerprints: ["41:1c:eb:be:07:a8:fa:80:88:84:40:bc:9a:fb:18:57"]
       - attach_workspace:
           at: ~/
       - restore_cache:
@@ -378,7 +380,7 @@ jobs:
             aws cloudformation deploy \
               --template-file .circleci/files/cloudfront.yml \
               --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
-              --stack-name InitialStack
+              --stack-name udapeople-cloudfront
       - destroy-environment
       - revert-migrations 
 
